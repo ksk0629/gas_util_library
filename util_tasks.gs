@@ -1,7 +1,7 @@
 const UtilTasks =  (() => {
   /**
    * Get all task lists.
-   * @return {Object(TaskList) | null} todo lists or null if there is nothing
+   * @return {Object(TaskList) | null} task lists or null if there is nothing
    */
   const getTaskLists = () => {
     const taskLists = Tasks.Tasklists.list();
@@ -33,10 +33,10 @@ const UtilTasks =  (() => {
    * A due of a task must be after today if being specified.
    * @param {string} taskListId - an identifier of a task list
    * @param {string} title - a title of a new task
-   * @param {string | null} notes - notes of a new task
-   * @param {number | null} year - year to be done, of a new task
-   * @param {number | null} month - month to be done, of a new task
-   * @param {number | nill} date - date to be done, of a new task
+   * @param {string | null} notes - notes of a new task or null
+   * @param {number | null} year - year to be done, of a new task or null
+   * @param {number | null} month - month to be done, of a new task or null
+   * @param {number | nill} date - date to be done, of a new task or null
    */
   const addTask = (taskListId, title, notes, year, month, date) => {
     let due = null;
