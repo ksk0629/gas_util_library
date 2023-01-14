@@ -80,7 +80,13 @@ const UtilTasks =  (() => {
       addTaskWithDue(newTaskListId, targetTask.title, targetTask.notes, targetTask.due);
     }
   }
-
+  
+  const changeParentTask = (taskListId, taskId, newParentTaskId) => {
+    const targetTask = getTaskById(taskListId, taskId)
+    if (targetTask) {
+      Tasks.Tasks.move(taskListId, taskId, {"parent": newParentTaskId});
+    }
+  }
   // <<< public <<<
 
   // >>> private >>>
@@ -123,7 +129,8 @@ const UtilTasks =  (() => {
     addTask,
     addSimpleTask,
     removeTask,
-    changeTaskList
+    changeTaskList,
+    changeParentTask
   };
 })();
 
@@ -185,5 +192,17 @@ function test() {
         console.log("ChangeTaskList: Successfully done.");
       }
     }
+  }
+
+  // Check for changeParentTask function
+  addNewTaskOnToday(taskList.id, taskTitle);
+  const newTaskTitle = "this is new task title baby!";
+  addNewTaskOnToday(taskList.id, newTaskTitle);
+  targetTask = getTaskByTitle(taskList.id, taskTitle);
+  let newTargetTask = getTaskByTitle(taskList.id, newTaskTitle);
+  if (targetTask && newTargetTask) {
+    UtilTasks.changeParentTask(taskList.id, targetTask.id, newTargetTask.id);
+    UtilTasks.removeTask(taskList.id, newTargetTask.id);
+    console.log("changeParentTask: Successfully done.");
   }
 }
