@@ -86,6 +86,13 @@ const UtilTasks =  (() => {
   // <<< public <<<
 
   // >>> private >>>
+  /**
+   * Add a new task into a task list, which is specified by a given taskListId, with due.
+   * @param {string} taskListId - an identifier of a task list
+   * @param {string} title - a title of a new task
+   * @param {string | null} notes - notes of a new task or null
+   * @param {string | null} due - due of a new task or null
+   */
   const addTaskWithDue = (taskListId, title, notes, due) => {
     const task = {
       "title": title,
