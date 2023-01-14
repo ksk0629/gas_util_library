@@ -61,6 +61,11 @@ const UtilTasks =  (() => {
     addTask(taskListId, title, null, null, null, null);
   }
 
+  /**
+   * Remove a task from a task list, which are specified by ID's.
+   * @param {string} taskListId - an identifier of a task list
+   * @param {string} taskId - an identifier of a task
+   */
   const removeTask = (taskListId, taskId) => {
     Tasks.Tasks.remove(taskListId, taskId);
   }
