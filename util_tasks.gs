@@ -167,12 +167,14 @@ const UtilTasks =  (() => {
    */
   const updateTaskSimplyWithDue = (taskListId, taskId, newTitle, newNotes, newDue) => {
     const targetTask = getTaskById(taskListId, taskId);
-    const newTask = {...targetTask};
-    newTask.title = newTitle;
-    newTask.notes = newNotes;
-    newTask.due = newDue;
+    if (targetTask) {
+      const newTask = {...targetTask};
+      newTask.title = newTitle;
+      newTask.notes = newNotes;
+      newTask.due = newDue;
 
-    Tasks.Tasks.update(newTask, taskListId, targetTask.id);
+      Tasks.Tasks.update(newTask, taskListId, targetTask.id);
+    }
   }
   // <<< private <<<
 
