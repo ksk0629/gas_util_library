@@ -74,18 +74,31 @@ const UtilTasks =  (() => {
    * @param {string} taskId - an identifier of a task
    */
   const changeTaskList = (originalTaskListId, newTaskListId, taskId) => {
-    const tasks = getTasks(originalTaskListId);
-    if (tasks) {
-      const targetTask = tasks.items.find((task) => task.id === taskId);
-      if (targetTask) {
-        removeTask(originalTaskListId, targetTask.id);
-        addTaskWithDue(newTaskListId, targetTask.title, targetTask.notes, targetTask.due);
-      }
+    const targetTask = getTaskById(originalTaskListId, taskId)
+    if (targetTask) {
+      removeTask(originalTaskListId, targetTask.id);
+      addTaskWithDue(newTaskListId, targetTask.title, targetTask.notes, targetTask.due);
     }
   }
+
   // <<< public <<<
 
   // >>> private >>>
+  /**
+   * Get a task in a task list, which are specified by ID's.
+   * @param {string} taskListId - an identifier of a task list
+   * @param {string} taskId - an identifier of a task
+   * @return {Object(Task) | null | undefined} a target task if it does exist
+   */
+  const getTaskById = (taskListId, taskId) => {
+    const tasks = getTasks(taskListId);
+    if (tasks) {
+      const targetTask = tasks.items.find((task) => task.id === taskId);
+      return targetTask;
+    }
+    return null;
+  }
+
   /**
    * Add a new task into a task list, which is specified by a given taskListId, with due.
    * @param {string} taskListId - an identifier of a task list
