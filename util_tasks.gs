@@ -186,7 +186,7 @@ function test() {
   }
 
   // Check for changeTaskList function
-  if (taskLists.items[1]) {
+  if (taskLists.items.length >= 2) {
     const newTaskList = taskLists.items[1];
     addNewTaskOnToday(taskList.id, taskTitle);
     targetTask = getTaskByTitle(taskList.id, taskTitle);
