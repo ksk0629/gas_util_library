@@ -93,6 +93,26 @@ const UtilTasks =  (() => {
       Tasks.Tasks.move(taskListId, taskId, {"parent": newParentTaskId});
     }
   }
+
+  /**
+   * Update a task simply.
+   * @param {string} taskListId - an identifieer of a task list
+   * @param {string} taskId - an identifier of a task
+   * @param {string | null} newTitle - a new title of a task
+   * @param {string | null} newNotes - new notes of a task
+   * @param {Number | null} newYear - a new year
+   * @param {Number | null} newMonth - a new month
+   * @param {Number | null} newDate - a new date
+   */
+  const updateTaskSimply = (taskListId, taskId, newTitle, newNotes, newYear, newMonth, newDate) => {
+    let due = null;
+    if (Validation.isAfterToday(newYear, newMonth, newDate)) {
+      const dueDate = new Date(Date.UTC(newYear, newMonth - 1, newDate));
+      due = Utilities.formatDate(dueDate, "GMT", "yyyy-MM-dd'T'HH:mm:ss'Z'");
+    }
+
+    updateTaskSimplyWithDue(taskListId, taskId, newTitle, newNotes, due);
+  }
   // <<< public <<<
 
   // >>> private >>>
@@ -126,6 +146,24 @@ const UtilTasks =  (() => {
     }
     Tasks.Tasks.insert(task, taskListId);
   }
+
+  /**
+   * Update a task simply with a due.
+   * @param {string} taskListId - an identifieer of a task list
+   * @param {string} taskId - an identifier of a task
+   * @param {string | null} newTitle - a new title of a task
+   * @param {string | null} newNotes - new notes of a task
+   * @param {string | null} newDue - a new due
+   */
+  const updateTaskSimplyWithDue = (taskListId, taskId, newTitle, newNotes, newDue) => {
+    const targetTask = getTaskById(taskListId, taskId);
+    const newTask = {...targetTask};
+    newTask.title = newTitle;
+    newTask.notes = newNotes;
+    newTask.due = newDue;
+
+    Tasks.Tasks.update(newTask, taskListId, targetTask.id);
+  }
   // <<< private <<<
 
   // The followings are for only public use.
@@ -136,7 +174,8 @@ const UtilTasks =  (() => {
     addSimpleTask,
     removeTask,
     changeTaskList,
-    changeParentTask
+    changeParentTask,
+    updateTaskSimply
   };
 })();
 
@@ -211,4 +250,11 @@ function test() {
     UtilTasks.removeTask(taskList.id, newTargetTask.id);
     console.log("changeParentTask: Successfully done.");
   }
+
+  // Check for updateTask function
+  addNewTaskOnToday(taskList.id, taskTitle);
+  targetTask = getTaskByTitle(taskList.id, taskTitle);
+  UtilTasks.updateTaskSimply(taskList.id, targetTask.id, newTaskTitle, null, null, null);
+  console.log("updateTaskSimply: Successfully done.");
+  UtilTasks.removeTask(taskList.id, targetTask.id);
 }
