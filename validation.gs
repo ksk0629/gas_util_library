@@ -66,9 +66,6 @@ const Validation = (() => {
       const now = new Date();
       const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
       const targetValue = new Date(Date.UTC(year, month - 1, date));
-      console.log(`today: ${today}.`)
-      console.log(`targetValue: ${targetValue}.`)
-      console.log(`targetValue >= today: ${targetValue >= today}`)
       return targetValue >= today;
     } else {
       return false;
