@@ -61,11 +61,53 @@ const UtilTasks =  (() => {
     addTask(taskListId, title, null, null, null, null);
   }
 
+  const removeTask = (taskListId, taskId) => {
+    Tasks.Tasks.remove(taskListId, taskId);
+  }
+
   // The followings are for only public use.
   return {
     getTaskLists, 
     getTasks,
     addTask,
     addSimpleTask,
+    removeTask,
   };
 })();
+
+function test() {
+  // Check for getTaskLists function
+  const taskLists = UtilTasks.getTaskLists();
+  console.log("getTaskLists: Successfuly done.");
+
+  const taskList = taskLists.items[0];
+
+  // Check for getTasks function
+  const tasks = UtilTasks.getTasks(taskList.id);
+  console.log("getTasks: Successfuly done.");
+
+  // Check four addTask function
+  const now = new Date();
+  const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  const taskTitle = "test task title";
+  const notes = "This is notes.";
+  const year = today.getUTCFullYear();
+  const month = today.getUTCMonth() + 1;
+  const date = today.getUTCDate();
+  UtilTasks.addTask(taskList.id, taskTitle, notes, year, month, date);
+  console.log("addTask: Successfuly done.");
+
+  // Check for deleteTask function
+  const updatedTasks = UtilTasks.getTasks(taskList.id);
+  let addedTask = null;
+  for (task of updatedTasks.items) {
+    if (task.title === taskTitle) {
+      addedTask = task;
+      break;
+    }
+  }
+  if (addedTask){
+    UtilTasks.removeTask(taskList.id, addedTask.id);
+    console.log("deleteTask: Successfuly done.");
+  }
+}
