@@ -114,6 +114,11 @@ const UtilTasks =  (() => {
     updateTaskSimplyWithDue(taskListId, taskId, newTitle, newNotes, due);
   }
 
+  /** 
+   * Mark a task as completed.
+   * @param {string} taskListId - an identifier of a task list
+   * @param {string} taskId - an identifier of a task
+   */
   const completeTask = (taskListId, taskId) => {
     const targetTask = getTaskById(taskListId, taskId)
     if (targetTask) {
