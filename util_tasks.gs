@@ -1,4 +1,5 @@
 const UtilTasks =  (() => {
+  // >>> public >>>
   /**
    * Get all task lists.
    * @return {Object(TaskList) | null} task lists or null if there is nothing
@@ -44,12 +45,8 @@ const UtilTasks =  (() => {
       const dueDate = new Date(Date.UTC(year, month - 1, date));
       due = Utilities.formatDate(dueDate, "GMT", "yyyy-MM-dd'T'HH:mm:ss'Z'");
     }
-    const task = {
-      "title": title,
-      "notes": notes,
-      "due" : due
-    }
-    Tasks.Tasks.insert(task, taskListId);
+
+    addTaskWithDue(taskListId, title, notes, due);
   }
 
   /**
@@ -69,6 +66,18 @@ const UtilTasks =  (() => {
   const removeTask = (taskListId, taskId) => {
     Tasks.Tasks.remove(taskListId, taskId);
   }
+  // <<< public <<<
+
+  // >>> private >>>
+  const addTaskWithDue = (taskListId, title, notes, due) => {
+    const task = {
+      "title": title,
+      "notes": notes,
+      "due" : due
+    }
+    Tasks.Tasks.insert(task, taskListId);
+  }
+  // <<< private <<<
 
   // The followings are for only public use.
   return {
