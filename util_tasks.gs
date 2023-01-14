@@ -90,6 +90,16 @@ const UtilTasks =  (() => {
 })();
 
 function test() {
+  // Define test-util functions.
+  const addNewTaskOnToday = (taskListId, taskTitle) => {
+    const now = new Date();
+    const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    const notes = "This is notes.";
+    const year = today.getUTCFullYear();
+    const month = today.getUTCMonth() + 1;
+    const date = today.getUTCDate();
+    UtilTasks.addTask(taskListId, taskTitle, notes, year, month, date);
+  }
   // Check for getTaskLists function
   const taskLists = UtilTasks.getTaskLists();
   console.log("getTaskLists: Successfuly done.");
@@ -101,14 +111,8 @@ function test() {
   console.log("getTasks: Successfuly done.");
 
   // Check four addTask function
-  const now = new Date();
-  const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
   const taskTitle = "test task title";
-  const notes = "This is notes.";
-  const year = today.getUTCFullYear();
-  const month = today.getUTCMonth() + 1;
-  const date = today.getUTCDate();
-  UtilTasks.addTask(taskList.id, taskTitle, notes, year, month, date);
+  addNewTaskOnToday(taskList.id, taskTitle);
   console.log("addTask: Successfuly done.");
 
   // Check for deleteTask function
