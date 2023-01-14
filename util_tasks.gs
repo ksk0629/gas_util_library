@@ -81,6 +81,12 @@ const UtilTasks =  (() => {
     }
   }
   
+  /**
+   * Change a parent task of a task.
+   * @param {string} taskListId - an identifier of a task list
+   * @param {string} taskId - an identifier of a task, which is a child task
+   * @param {String} newParentId - an identifier of a parent task
+   */
   const changeParentTask = (taskListId, taskId, newParentTaskId) => {
     const targetTask = getTaskById(taskListId, taskId)
     if (targetTask) {
