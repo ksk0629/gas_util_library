@@ -183,11 +183,11 @@ function test() {
   // Define test-util functions
   const addNewTaskOnToday = (taskListId, taskTitle) => {
     const now = new Date();
-    const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
     const notes = "This is notes.";
-    const year = today.getUTCFullYear();
-    const month = today.getUTCMonth() + 1;
-    const date = today.getUTCDate();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
     UtilTasks.addTask(taskListId, taskTitle, notes, year, month, date);
   }
   const getTaskByTitle = (taskListId, taskTitle) => {

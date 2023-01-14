@@ -64,7 +64,7 @@ const Validation = (() => {
   const isAfterToday = (year, month, date) => {
     if (isInteger(year) && isMonth(month) && isDate(date)) {
       const now = new Date();
-      const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
       const targetValue = new Date(Date.UTC(year, month - 1, date));
       return targetValue >= today;
     } else {
