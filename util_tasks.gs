@@ -139,6 +139,14 @@ const UtilTasks =  (() => {
     };
     Tasks.Tasklists.insert(taskList);
   }
+
+  /**
+   * Remove a task list, which is specified by an ID.
+   * @param {string} taskListId - an identifier of a task list
+   */
+  const removeTaskList = (taskListId) => {
+    Tasks.Tasklists.remove(taskListId);
+  }
   // <<< public <<<
 
   // >>> private >>>
@@ -205,7 +213,8 @@ const UtilTasks =  (() => {
     changeParentTask,
     updateTaskSimply,
     completeTask,
-    addTaskList
+    addTaskList,
+    removeTaskList
   };
 })();
 
@@ -222,14 +231,17 @@ function test() {
   }
   const getTaskByTitle = (taskListId, taskTitle) => {
     const tasks = UtilTasks.getTasks(taskListId);
-    let targetTask = null;
-    for (task of tasks.items) {
-      if (task.title === taskTitle) {
-        targetTask = task;
-        break;
-      }
+    if (tasks) {
+      const targetTask = tasks.items.find((task) => task.title === taskTitle);
+      return targetTask;
     }
-    return targetTask;
+  }
+  const getTaskListByTitle = (taskListTitle) => {
+    const taskLists = UtilTasks.getTaskLists();
+    if (taskLists) {
+      const taregetTaskList = taskLists.items.find((taskList) => taskList.title === taskListTitle);
+      return taregetTaskList;
+    }
   }
 
   // Check for getTaskLists function
@@ -250,7 +262,7 @@ function test() {
   // Check for deleteTask function
   let targetTask = getTaskByTitle(taskList.id, taskTitle);
   if (targetTask){
-    UtilTasks.removeTask(taskList.id, targetTask.id);
+    UtilTasks.removeTask(taskList.id);
     console.log("deleteTask: Successfully done.");
   }
 
@@ -294,8 +306,13 @@ function test() {
   // UtilTasks.completeTask(taskList.id, targetTask.id);
   // console.log("completeTask: Successfully done.");
 
+  // Check for addTaskList function
   const taskListTitle = "testTask List!";
   UtilTasks.addTaskList(taskListTitle);
   console.log("addTaskList: Successfully done.");
 
+  // Check for removeTaskList function
+  let targetTaskList = getTaskListByTitle(taskListTitle);
+  UtilTasks.removeTaskList(targetTaskList.id);
+  console.log("removeTaskList: Successfully done.");
 }
