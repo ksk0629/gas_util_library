@@ -123,6 +123,17 @@ const UtilTasks =  (() => {
       Tasks.Tasks.update(doneTask, taskListId, targetTask.id);
     }
   }
+
+  /**
+   * Add a task list.
+   * @param {string} taskListTitle - a title of a task list
+   */
+  const addTaskList = (taskListTitle) => {
+    const taskList = {
+      "title": taskListTitle,
+    };
+    Tasks.Tasklists.insert(taskList);
+  }
   // <<< public <<<
 
   // >>> private >>>
@@ -188,7 +199,8 @@ const UtilTasks =  (() => {
     changeTaskList,
     changeParentTask,
     updateTaskSimply,
-    completeTask
+    completeTask,
+    addTaskList
   };
 })();
 
@@ -268,12 +280,17 @@ function test() {
   addNewTaskOnToday(taskList.id, taskTitle);
   targetTask = getTaskByTitle(taskList.id, taskTitle);
   UtilTasks.updateTaskSimply(taskList.id, targetTask.id, newTaskTitle, null, null, null);
-  console.log("updateTaskSimply: Successfully done.");
   UtilTasks.removeTask(taskList.id, targetTask.id);
+  console.log("updateTaskSimply: Successfully done.");
 
   // // Check for completeTask function
   // addNewTaskOnToday(taskList.id, taskTitle);
   // targetTask = getTaskByTitle(taskList.id, taskTitle);
   // UtilTasks.completeTask(taskList.id, targetTask.id);
   // console.log("completeTask: Successfully done.");
+
+  const taskListTitle = "testTask List!";
+  UtilTasks.addTaskList(taskListTitle);
+  console.log("addTaskList: Successfully done.");
+
 }
