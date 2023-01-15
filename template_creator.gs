@@ -31,21 +31,17 @@ var TemplateCreator = class TemplateCreator {
    */
   __createAllTasksSheet(spreadsheet) {
     // Check if "all tasks" sheet exists.
-    let preAllTasksSheetName = "all tasks";
-    let allTasksSheetName = preAllTasksSheetName;
+    const allTasksSheetName = "all tasks";
     let allTasksSheet = spreadsheet.getSheetByName(allTasksSheetName);
-    let correctNumber = 1;
-    while (allTasksSheet) {
-      // Update the sheet name until a sheet whose the name is allTasksSheetName does not exist.
-      allTasksSheetName = `${preAllTasksSheetName}_${correctNumber}`;
-      allTasksSheet = spreadsheet.getSheetByName(allTasksSheetName);
+    if (allTasksSheet) {
+      spreadsheet.deleteSheet(allTasksSheet);
     }
     
     // Create a new sheet and name it allTasksSheetName.
     allTasksSheet = spreadsheet.insertSheet();
     allTasksSheet.setName(allTasksSheetName);
 
-    setupAllTasksSheet = this.__setupSheetForAllTasks(allTasksSheet);
+    const setupAllTasksSheet = this.__setupSheetForAllTasks(allTasksSheet);
 
     return setupAllTasksSheet;
   }
