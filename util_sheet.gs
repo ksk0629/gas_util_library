@@ -10,8 +10,10 @@ const UtilSheet = (() => {
   const setPullDownsOnColumn = (sheet, values, columnPosition, firstRowPosition, lastRowPosition) => {
     const rule = SpreadsheetApp.newDataValidation().requireValueInList(values).build();
     const numRows = lastRowPosition - firstRowPosition + 1;
-    const cell = sheet.getRange(firstRowPosition, columnPosition, numRows);
-    cell.setDataValidation(rule);
+    if (numRows > 0) {
+      const cell = sheet.getRange(firstRowPosition, columnPosition, numRows);
+      cell.setDataValidation(rule);
+    }
   }
 
   /** 
