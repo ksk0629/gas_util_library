@@ -1,7 +1,7 @@
 const UtilSheet = (() => {
   /** 
    * Set pull-downs on a given column.
-   * @param {Object(Sheet)} sheet - a sheet
+   * @param {Sheet} sheet - a sheet
    * @param {Array} values - values set on pull-downs
    * @param {Number} columnPosition - a colomn position, which is set pull-downs]
    * @param {Number} firstRowPosition - the first row position, which is set a pull-down
@@ -16,7 +16,7 @@ const UtilSheet = (() => {
 
   /** 
    * Remove all data validation from a given column.
-   * @param {Object(Sheet)} sheet - a sheet
+   * @param {Sheet} sheet - a sheet
    * @param {Number} columnPosition - a colomn position, which is set pull-downs]
    * @param {Number} firstRowPosition - the first row position, which is set a pull-down
    * @param {Number} lastRowPosition - the last row position, which is set a pull-down

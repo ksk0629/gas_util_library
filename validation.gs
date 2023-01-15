@@ -2,7 +2,7 @@ const Validation = (() => {
   /**
    * Check if a given value is an integer.
    * @param {Number} value - a value
-   * @return {boolean} whether or not a given value is an integer.
+   * @return {Boolean} whether or not a given value is an integer.
    */
   const isInteger = (value) => {
     return Number.isInteger(value);
@@ -12,7 +12,7 @@ const Validation = (() => {
    * Check if a given targetValue is less than or equal to a given baseValue.
    * @param {Number} targetValue - a value being compared
    * @param {Number} baseValue - a value to compare
-   * @return {boolean} whether or not a given targetValue is less than or equal to a given baseValue 
+   * @return {Boolean} whether or not a given targetValue is less than or equal to a given baseValue 
    */
   const isLessOrEq = (targetValue, baseValue) => {
     if (isInteger(targetValue) && isInteger(baseValue)) {
@@ -26,7 +26,7 @@ const Validation = (() => {
    * Check if a given targetValue is more than or equal to a given baseValue.
    * @param {Number} targetValue - a value being compared
    * @param {Number} baseValue - a value to compare
-   * @return {boolean} whether or not a given targetValue is more than or equal to a given baseValue
+   * @return {Boolean} whether or not a given targetValue is more than or equal to a given baseValue
    */
   const isMoreOrEq = (targetValue, baseValue) => {
     if (isInteger(targetValue) && isInteger(baseValue)) {
@@ -39,7 +39,7 @@ const Validation = (() => {
   /**
    * Check if a given value is month, which is in the range from 1 to 12.
    * @param {Number} value - a value
-   * @return {boolean} whether or not a given value is month
+   * @return {Boolean} whether or not a given value is month
    */
   const isMonth = (value) => {
     return isInteger(value) && isLessOrEq(value, 12) && isMoreOrEq(value, 1);
@@ -48,7 +48,7 @@ const Validation = (() => {
   /**
    * Check if a given value is date, which is in the range from 1 to 31.
    * @param {Number} value - a value
-   * @return {boolean} whether or not a given value is date
+   * @return {Boolean} whether or not a given value is date
    */
   const isDate = (value) => {
     return isInteger(value) && isLessOrEq(value, 31) && isMoreOrEq(value, 1);
@@ -59,7 +59,7 @@ const Validation = (() => {
    * @param {Number} year - year
    * @param {Number} month - month
    * @param {Number} date - date
-   * @return {boolean} whether or not a given year, month and date is after today
+   * @return {Boolean} whether or not a given year, month and date is after today
    */
   const isAfterToday = (year, month, date) => {
     if (isInteger(year) && isMonth(month) && isDate(date)) {

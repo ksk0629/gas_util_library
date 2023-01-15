@@ -16,7 +16,7 @@ const UtilTasks =  (() => {
 
   /**
    * Get tasks in a task list, which is specified by a given taskListId.
-   * @param {string} taskListId - an identifier of a task list
+   * @param {String} taskListId - an identifier of a task list
    * @return {Object(Task) | null} tasks or null if there is nothing
    */
   const getTasks = (taskListId) => {
@@ -32,9 +32,9 @@ const UtilTasks =  (() => {
   /**
    * Add a new task into a task list, which is specified by a given taskListId.
    * A due of a task must be after today if being specified.
-   * @param {string} taskListId - an identifier of a task list
-   * @param {string} title - a title of a new task
-   * @param {string | null} notes - notes of a new task or null
+   * @param {String} taskListId - an identifier of a task list
+   * @param {String} title - a title of a new task
+   * @param {String | null} notes - notes of a new task or null
    * @param {number | null} year - year to be done, of a new task or null
    * @param {number | null} month - month to be done, of a new task or null
    * @param {number | nill} date - date to be done, of a new task or null
@@ -51,8 +51,8 @@ const UtilTasks =  (() => {
 
   /**
    * Add a new task that has only title into a task list, which is specified by a given taskListId.
-   * @param {string} taskListId - an identifier of a task list
-   * @param {string} title - a title of a new task
+   * @param {String} taskListId - an identifier of a task list
+   * @param {String} title - a title of a new task
    */
   const addSimpleTask = (taskListId, title) => {
     addTask(taskListId, title, null, null, null, null);
@@ -60,8 +60,8 @@ const UtilTasks =  (() => {
 
   /**
    * Remove a task from a task list, which are specified by ID's.
-   * @param {string} taskListId - an identifier of a task list
-   * @param {string} taskId - an identifier of a task
+   * @param {String} taskListId - an identifier of a task list
+   * @param {String} taskId - an identifier of a task
    */
   const removeTask = (taskListId, taskId) => {
     Tasks.Tasks.remove(taskListId, taskId);
@@ -69,9 +69,9 @@ const UtilTasks =  (() => {
 
   /**
    * Change a task list of a task, which are specified by ID's.
-   * @param {string} originalTaskListId - an identifier of an original task list
-   * @param {string} newTaskListId - an identifier of a new task list
-   * @param {string} taskId - an identifier of a task
+   * @param {String} originalTaskListId - an identifier of an original task list
+   * @param {String} newTaskListId - an identifier of a new task list
+   * @param {String} taskId - an identifier of a task
    */
   const changeTaskList = (originalTaskListId, newTaskListId, taskId) => {
     const targetTask = getTaskById(originalTaskListId, taskId)
@@ -83,8 +83,8 @@ const UtilTasks =  (() => {
   
   /**
    * Change a parent task of a task.
-   * @param {string} taskListId - an identifier of a task list
-   * @param {string} taskId - an identifier of a task, which is a child task
+   * @param {String} taskListId - an identifier of a task list
+   * @param {String} taskId - an identifier of a task, which is a child task
    * @param {String} newParentId - an identifier of a parent task
    */
   const changeParentTask = (taskListId, taskId, newParentTaskId) => {
@@ -96,10 +96,10 @@ const UtilTasks =  (() => {
 
   /**
    * Update a task simply.
-   * @param {string} taskListId - an identifieer of a task list
-   * @param {string} taskId - an identifier of a task
-   * @param {string | null} newTitle - a new title of a task
-   * @param {string | null} newNotes - new notes of a task
+   * @param {String} taskListId - an identifieer of a task list
+   * @param {String} taskId - an identifier of a task
+   * @param {String | null} newTitle - a new title of a task
+   * @param {String | null} newNotes - new notes of a task
    * @param {Number | null} newYear - a new year
    * @param {Number | null} newMonth - a new month
    * @param {Number | null} newDate - a new date
@@ -116,8 +116,8 @@ const UtilTasks =  (() => {
 
   /** 
    * Mark a task as completed.
-   * @param {string} taskListId - an identifier of a task list
-   * @param {string} taskId - an identifier of a task
+   * @param {String} taskListId - an identifier of a task list
+   * @param {String} taskId - an identifier of a task
    */
   const completeTask = (taskListId, taskId) => {
     const targetTask = getTaskById(taskListId, taskId)
@@ -131,7 +131,7 @@ const UtilTasks =  (() => {
 
   /**
    * Add a task list.
-   * @param {string} taskListTitle - a title of a task list
+   * @param {String} taskListTitle - a title of a task list
    */
   const addTaskList = (taskListTitle) => {
     const taskList = {
@@ -142,7 +142,7 @@ const UtilTasks =  (() => {
 
   /**
    * Remove a task list, which is specified by an ID.
-   * @param {string} taskListId - an identifier of a task list
+   * @param {String} taskListId - an identifier of a task list
    */
   const removeTaskList = (taskListId) => {
     Tasks.Tasklists.remove(taskListId);
@@ -152,9 +152,9 @@ const UtilTasks =  (() => {
   // >>> private >>>
   /**
    * Get a task in a task list, which are specified by ID's.
-   * @param {string} taskListId - an identifier of a task list
-   * @param {string} taskId - an identifier of a task
-   * @return {Object(Task) | null | undefined} a target task if it does exist
+   * @param {String} taskListId - an identifier of a task list
+   * @param {String} taskId - an identifier of a task
+   * @return {Task | null | undefined} a target task if it does exist
    */
   const getTaskById = (taskListId, taskId) => {
     const tasks = getTasks(taskListId);
@@ -167,10 +167,10 @@ const UtilTasks =  (() => {
 
   /**
    * Add a new task into a task list, which is specified by a given taskListId, with due.
-   * @param {string} taskListId - an identifier of a task list
-   * @param {string} title - a title of a new task
-   * @param {string | null} notes - notes of a new task or null
-   * @param {string | null} due - due of a new task or null
+   * @param {String} taskListId - an identifier of a task list
+   * @param {String} title - a title of a new task
+   * @param {String | null} notes - notes of a new task or null
+   * @param {String | null} due - due of a new task or null
    */
   const addTaskWithDue = (taskListId, title, notes, due) => {
     const task = {
@@ -183,11 +183,11 @@ const UtilTasks =  (() => {
 
   /**
    * Update a task simply with a due.
-   * @param {string} taskListId - an identifieer of a task list
-   * @param {string} taskId - an identifier of a task
-   * @param {string | null} newTitle - a new title of a task
-   * @param {string | null} newNotes - new notes of a task
-   * @param {string | null} newDue - a new due
+   * @param {String} taskListId - an identifieer of a task list
+   * @param {String} taskId - an identifier of a task
+   * @param {String | null} newTitle - a new title of a task
+   * @param {String | null} newNotes - new notes of a task
+   * @param {String | null} newDue - a new due
    */
   const updateTaskSimplyWithDue = (taskListId, taskId, newTitle, newNotes, newDue) => {
     const targetTask = getTaskById(taskListId, taskId);
