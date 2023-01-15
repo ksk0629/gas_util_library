@@ -32,3 +32,7 @@ const UtilSheet = (() => {
     removeDataValidationOnColumn
   }
 })();
+
+function exportUtilSheet() {
+  return UtilSheet;
+}

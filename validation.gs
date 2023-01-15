@@ -76,3 +76,7 @@ const Validation = (() => {
     isAfterToday
   }
 })();
+
+function exportValidation () {
+  return Validation;
+}

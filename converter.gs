@@ -16,3 +16,7 @@ const Converter = (() => {
     flipObject
   }
 })();
+
+function exportConverter() {
+  return Converter;
+}
