@@ -14,7 +14,7 @@ var TemplateCreator = class TemplateCreator {
     this.taskListTitleColumnPosition = currentUsedColumns++;
     this.statusColumnPosition = currentUsedColumns++;
     this.taskTitleColumnPosition = currentUsedColumns++;
-    this.parentColumnPosition = currentUsedColumns++;
+    this.parentTitleColumnPosition = currentUsedColumns++;
     this.dueColumnPosition = currentUsedColumns++;
     this.notesColumnPosition = currentUsedColumns++;
 
@@ -60,7 +60,7 @@ var TemplateCreator = class TemplateCreator {
     sheet.getRange(this.headerRowPosition, this.taskListTitleColumnPosition).setValue("task list");
     sheet.getRange(this.headerRowPosition, this.statusColumnPosition).setValue("status");
     sheet.getRange(this.headerRowPosition, this.taskTitleColumnPosition).setValue("title");
-    sheet.getRange(this.headerRowPosition, this.parentColumnPosition).setValue("parent title");
+    sheet.getRange(this.headerRowPosition, this.parentTitleColumnPosition).setValue("parent title");
     sheet.getRange(this.headerRowPosition, this.dueColumnPosition).setValue("due");
     sheet.getRange(this.headerRowPosition, this.notesColumnPosition).setValue("notes");
     sheet.getRange(this.headerRowPosition, this.numberColumnPosition, 1, this.usedColumnPositions.length).setFontWeight("bold");
@@ -101,8 +101,8 @@ var TemplateCreator = class TemplateCreator {
     const extraWidthForButton = 20;
     const taskListTitleColumnWidth = sheet.getColumnWidth(this.taskListTitleColumnPosition);
     sheet.setColumnWidth(this.taskListTitleColumnPosition, taskListTitleColumnWidth + extraWidthForButton);
-    const parentTitleColumnWidth = sheet.getColumnWidth(this.parentColumnPosition);
-    sheet.setColumnWidth(this.parentColumnPosition, parentTitleColumnWidth + extraWidthForButton);
+    const parentTitleColumnWidth = sheet.getColumnWidth(this.parentTitleColumnPosition);
+    sheet.setColumnWidth(this.parentTitleColumnPosition, parentTitleColumnWidth + extraWidthForButton);
   }
 
   /**
@@ -130,7 +130,7 @@ var TemplateCreator = class TemplateCreator {
         const taskTitlesWithoutMe = tasksWithoutMe.map((task) => task.title);
         UtilSheet.setPullDownsOnColumn(sheet,
                                        taskTitlesWithoutMe,
-                                       this.parentColumnPosition,
+                                       this.parentTitleColumnPosition,
                                        currentRowPosition,
                                        currentRowPosition);
 
@@ -155,7 +155,7 @@ var TemplateCreator = class TemplateCreator {
     const taskTitleRange = sheet.getRange(rowPosition, this.taskTitleColumnPosition);
     const dueRange = sheet.getRange(rowPosition, this.dueColumnPosition);
     const notesRange = sheet.getRange(rowPosition, this.notesColumnPosition);
-    const parentRange = sheet.getRange(rowPosition, this.parentColumnPosition);
+    const parentRange = sheet.getRange(rowPosition, this.parentTitleColumnPosition);
     const statusRange = sheet.getRange(rowPosition, this.statusColumnPosition);
 
     taskListTitleRange.setValue(taskListTitle);
@@ -233,7 +233,7 @@ var TemplateCreator = class TemplateCreator {
     // Get the active column position.
     const activeCell = sheet.getActiveCell();
     const activeCellColumnPosition = activeCell.getColumn();
-    if (activeCellColumnPosition !== this.parentColumnPosition) {
+    if (activeCellColumnPosition !== this.parentTitleColumnPosition) {
       // Early return if the active cell is not the column of a parent title.
       console.log("The active cell is not the column of a parent title.");
       return null;
@@ -285,7 +285,7 @@ var TemplateCreator = class TemplateCreator {
     }
 
     // Get the parent task.
-    const parentTaskTitleRange = sheet.getRange(activeCellRowPosition, this.parentColumnPosition);
+    const parentTaskTitleRange = sheet.getRange(activeCellRowPosition, this.parentTitleColumnPosition);
     const newParentTaskTitle = parentTaskTitleRange.getValue();
     let newParentId = null;
     if (newParentTaskTitle !== "") {
