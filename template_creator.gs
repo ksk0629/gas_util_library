@@ -214,4 +214,100 @@ var TemplateCreator = class TemplateCreator {
     this.__setupSheetForAllTasks(sheet);
     this.__setAllTasksOnSheet(sheet);
   }
+
+
+  // >>> Event handler >>>
+  /**
+   * The event handler for Updating the column of a parent.
+   * @param {string} sheetName - a sheet name
+   */
+  updateParentHandler(sheetName) {
+    // Get the active sheet.
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+    if (!sheet) {
+      // Early return if the sheet does not exist.
+      console.warn(`The sheet named ${sheetName} does not exist.`);
+      return null;
+    }
+    
+    // Get the active column position.
+    const activeCell = sheet.getActiveCell();
+    const activeCellColumnPosition = activeCell.getColumn();
+    if (activeCellColumnPosition !== this.parentColumnPosition) {
+      // Early return if the active cell is not the column of a parent title.
+      console.log("The active cell is not the column of a parent title.");
+      return null;
+    }
+
+    // Get the task lists.
+    const taskLists = UtilTasks.getTaskLists();
+    if (!taskLists) {
+      // Early return if it does not exist.
+      console.warn(`There are no task lists.`);
+      return null;
+    }
+
+    // Get the identifier of the task list.
+    const activeCellRowPosition = activeCell.getRow();
+    const targetTaskListRange = sheet.getRange(activeCellRowPosition, this.taskListTitleColumnPosition);
+    const targetTaskListId = targetTaskListRange.getNote();
+    const targetTaskList = taskLists.find((taskList) => taskList.id === targetTaskListId);
+    if (!targetTaskList) {
+      // Early return if it does not exist.
+      console.warn(`The target task list doen not exist in the task lists.`);
+      return null;
+    }
+
+    // Get the tasks.
+    const tasks = UtilTasks.getTasks(targetTaskList.id);
+    if (!tasks) {
+      // Early return if there are no tasks.
+      console.warn(`There are no tasks in the task list "${targetTaskList.title}".`);
+      return null;
+    }
+
+    // Get the identifier of the task.
+    const targetTaskTitleRange = sheet.getRange(activeCellRowPosition, this.taskTitleColumnPosition);
+    const targetTaskId = targetTaskTitleRange.getNote();
+    if (!targetTaskId) {
+      // Early return if it does not exist.
+      console.warn(`The identifier of the task is not set.`);
+      return null;
+    }
+
+    // Get the task.
+    const targetTask = tasks.find((task) => task.id === targetTaskId);
+    if (!targetTask) {
+      // Early return if it does not exist.
+      const targetTaskTitle = targetTaskTitleRange.getValue();
+      console.warn(`There is no task ${targetTaskTitle} in the target list ${targetTaskList.id}.`);
+      return null;
+    }
+
+    // Get the parent task.
+    const parentTaskTitleRange = sheet.getRange(activeCellRowPosition, this.parentColumnPosition);
+    const newParentTaskTitle = parentTaskTitleRange.getValue();
+    let newParentId = null;
+    if (newParentTaskTitle !== "") {
+      const newParentTask = tasks.find((task) => task.title === newParentTaskTitle);
+      if (!newParentTask) {
+        // Early return if it does not exist.
+        console.warn(`There is no task whose the tile is ${newParentTaskTitle} in the task list ${tasks.title}.`);
+        return null;
+      }
+      newParentId = newParentTask.id;
+    }
+
+    UtilTasks.changeParentTask(targetTaskListId, targetTaskId, newParentId);
+    activeCell.setNote(newParentId)
+  }
+
+  /**
+   * The event handler for Updating the column of a parent, especially for the all tasks sheet.
+   */
+  updateParentHandlerForAllTasksSheet() {
+    return this.updateParentHandler(this.allTasksSheetName);
+  }
+  // <<< Event hander <<<
+
 }
