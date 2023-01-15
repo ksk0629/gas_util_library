@@ -254,7 +254,7 @@ function test() {
   // Check for deleteTask function
   let targetTask = getTaskByTitle(taskList.id, taskTitle);
   if (targetTask){
-    UtilTasks.removeTask(taskList.id);
+    UtilTasks.removeTask(taskList.id, targetTask.id);
     console.log("deleteTask: Successfully done.");
   }
 
