@@ -122,7 +122,7 @@ var TemplateCreator = class TemplateCreator {
         if (parentTask) {
           parentTaskTitle = parentTask.title;
         }
-        this.__setOneRow(sheet, taskList.title, task, parentTaskTitle, currentRowPosition);
+        this.__setOneRow(sheet, taskList.title, taskList.id, task, parentTaskTitle, currentRowPosition);
 
         const tasksWithoutMe = tasks.filter((_t) => _t.id !== task.id);
         const taskTitlesWithoutMe = tasksWithoutMe.map((task) => task.title);
@@ -142,11 +142,12 @@ var TemplateCreator = class TemplateCreator {
    * Set a task on one row. This method is intented to be private.
    * @param {Sheet} sheet - a sheet
    * @param {String} taskListTitle - a title of a task list
+   * @param {String} taskListId- an identifier of a task list
    * @param {Task} task - a task
    * @param {String | null} parentTitle - a title of a parent task if there is a parent
    * @param {Number} rowPosition - a row position
    */
-  __setOneRow(sheet, taskListTitle, task, parentTitle, rowPosition) {
+  __setOneRow(sheet, taskListTitle, taskListId, task, parentTitle, rowPosition) {
     const taskListTitleRange = sheet.getRange(rowPosition, this.taskListTitleColumnPosition);
     const taskTitleRange = sheet.getRange(rowPosition, this.taskTitleColumnPosition);
     const dueRange = sheet.getRange(rowPosition, this.dueColumnPosition);
@@ -155,7 +156,11 @@ var TemplateCreator = class TemplateCreator {
     const statusRange = sheet.getRange(rowPosition, this.statusColumnPosition);
 
     taskListTitleRange.setValue(taskListTitle);
+    taskListTitleRange.setNote(taskListId);
+
     taskTitleRange.setValue(task.title);
+    taskTitleRange.setNote(task.id);
+
     statusRange.insertCheckboxes();
     if (task.due) {
       const dueDate = new Date(task.due);
@@ -197,7 +202,9 @@ var TemplateCreator = class TemplateCreator {
   setAllTasksOn(sheet) {
     // Initialise sheet.
     sheet.clear();
-    sheet.getRange(1,1, sheet.getMaxRows(), sheet.getMaxColumns()).setDataValidation(null);
+    const allRange = sheet.getRange(1,1, sheet.getMaxRows(), sheet.getMaxColumns());
+    allRange.setDataValidation(null);
+    allRange.setNote(null);
     sheet.setFrozenRows(0);
 
     this.__setupSheetForAllTasks(sheet);
