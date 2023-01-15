@@ -1,4 +1,4 @@
-const Validation = (() => {
+var Validation = (() => {
   /**
    * Check if a given value is an integer.
    * @param {Number} value - a value
@@ -76,7 +76,3 @@ const Validation = (() => {
     isAfterToday
   }
 })();
-
-function exportValidation () {
-  return Validation;
-}

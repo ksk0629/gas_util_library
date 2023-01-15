@@ -1,4 +1,4 @@
-const Converter = (() => {
+var Converter = (() => {
   /**
    * Flip keys and correponding values in a given object.
    * @param {Object} obj - a target object
@@ -16,7 +16,3 @@ const Converter = (() => {
     flipObject
   }
 })();
-
-function exportConverter() {
-  return Converter;
-}

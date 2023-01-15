@@ -1,4 +1,4 @@
-const UtilSheet = (() => {
+var UtilSheet = (() => {
   /** 
    * Set pull-downs on a given column.
    * @param {Sheet} sheet - a sheet
@@ -36,7 +36,3 @@ const UtilSheet = (() => {
     removeDataValidationOnColumn
   }
 })();
-
-function exportUtilSheet() {
-  return UtilSheet;
-}

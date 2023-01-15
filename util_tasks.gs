@@ -1,4 +1,4 @@
-const UtilTasks = (() => {
+var UtilTasks = (() => {
   // >>> public >>>
   /**
    * Get all task lists.
@@ -307,8 +307,4 @@ function test() {
   let targetTaskList = getTaskListByTitle(taskListTitle);
   UtilTasks.removeTaskList(targetTaskList.id);
   console.log("removeTaskList: Successfully done.");
-}
-
-function exportUtilTasks () {
-  return UtilTasks;
 }
