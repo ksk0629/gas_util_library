@@ -6,7 +6,7 @@ var Converter = (() => {
    */
   const flipObject = (obj) => {
     const flippedObj = {};
-    for (key of Object.keys(obj)) {
+    for (const key of Object.keys(obj)) {
       flippedObj[obj[key]] = key;
     }
     return flippedObj;
