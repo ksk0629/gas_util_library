@@ -96,6 +96,9 @@ var TemplateCreator = class TemplateCreator {
                                    this.firstRowPosition,
                                    currentRowPosition - 1);
 
+    // Add task numbers.
+    this.__setTaskNumber(sheet);
+
     // Adjust column sizes.
     const lastColumnPosition = sheet.getLastColumn();
     sheet.autoResizeColumns(1, lastColumnPosition);
@@ -169,6 +172,17 @@ var TemplateCreator = class TemplateCreator {
     if (parentTitle) {
       parentTitleRange.setValue(parentTitle);
     }
+  }
+
+  /**
+   * Set task numbers on the task number column.
+   * @param {Sheet} sheet - a sheet
+   */
+  __setTaskNumber(sheet) {
+    const lastRowPosition = sheet.getLastRow();
+    const numberRange = sheet.getRange(this.firstRowPosition, this.numberColumnPosition, lastRowPosition - this.firstRowPosition + 1);
+    const values = Array.from(Array(lastRowPosition - this.firstRowPosition + 1)).map((e, i) => [i + 1]);
+    numberRange.setValues(values)
   }
 
   /**
