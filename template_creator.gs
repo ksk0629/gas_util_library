@@ -119,10 +119,12 @@ var TemplateCreator = class TemplateCreator {
       for (const task of tasks) {
         const parentTask = tasks.find((_t) => _t.id === task.parent);
         let parentTaskTitle = null;
+        let parentTaskId = null;
         if (parentTask) {
           parentTaskTitle = parentTask.title;
+          parentTaskId = parentTask.id;
         }
-        this.__setOneRow(sheet, taskList.title, taskList.id, task, parentTaskTitle, currentRowPosition);
+        this.__setOneRow(sheet, taskList.title, taskList.id, task, parentTaskTitle, parentTaskId, currentRowPosition);
 
         const tasksWithoutMe = tasks.filter((_t) => _t.id !== task.id);
         const taskTitlesWithoutMe = tasksWithoutMe.map((task) => task.title);
@@ -144,15 +146,16 @@ var TemplateCreator = class TemplateCreator {
    * @param {String} taskListTitle - a title of a task list
    * @param {String} taskListId- an identifier of a task list
    * @param {Task} task - a task
-   * @param {String | null} parentTitle - a title of a parent task if there is a parent
+   * @param {String | null} parentTaskTitle - a title of a parent task if there is a parent
+   * @param {String | null} parentTaskId- an identifier of a parent task if there is a parent
    * @param {Number} rowPosition - a row position
    */
-  __setOneRow(sheet, taskListTitle, taskListId, task, parentTitle, rowPosition) {
+  __setOneRow(sheet, taskListTitle, taskListId, task, parentTaskTitle, parentTaskId, rowPosition) {
     const taskListTitleRange = sheet.getRange(rowPosition, this.taskListTitleColumnPosition);
     const taskTitleRange = sheet.getRange(rowPosition, this.taskTitleColumnPosition);
     const dueRange = sheet.getRange(rowPosition, this.dueColumnPosition);
     const notesRange = sheet.getRange(rowPosition, this.notesColumnPosition);
-    const parentTitleRange = sheet.getRange(rowPosition, this.parentColumnPosition);
+    const parentRange = sheet.getRange(rowPosition, this.parentColumnPosition);
     const statusRange = sheet.getRange(rowPosition, this.statusColumnPosition);
 
     taskListTitleRange.setValue(taskListTitle);
@@ -170,8 +173,9 @@ var TemplateCreator = class TemplateCreator {
     if (task.notes) {
       notesRange.setValue(task.notes);
     }
-    if (parentTitle) {
-      parentTitleRange.setValue(parentTitle);
+    if (parentTaskTitle && parentTaskId) {
+      parentRange.setValue(parentTaskTitle);
+      parentRange.setNote(parentTaskId);
     }
   }
 
