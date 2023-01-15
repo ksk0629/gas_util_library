@@ -7,11 +7,7 @@ const UtilTasks = (() => {
   const getTaskLists = () => {
     const taskLists = Tasks.Tasklists.list();
 
-    if (taskLists.items) {
-      return taskLists;
-    } else {
-      return null;
-    }
+    return taskLists.items;
   }
 
   /**
@@ -22,11 +18,7 @@ const UtilTasks = (() => {
   const getTasks = (taskListId) => {
     const tasks = Tasks.Tasks.list(taskListId);
 
-    if (tasks.items) {
-      return tasks;
-    } else {
-      return null;
-    }
+    return tasks.items;
   }
 
   /**
@@ -159,7 +151,7 @@ const UtilTasks = (() => {
   const getTaskById = (taskListId, taskId) => {
     const tasks = getTasks(taskListId);
     if (tasks) {
-      const targetTask = tasks.items.find((task) => task.id === taskId);
+      const targetTask = tasks.find((task) => task.id === taskId);
       return targetTask;
     }
     return null;
@@ -232,14 +224,14 @@ function test() {
   const getTaskByTitle = (taskListId, taskTitle) => {
     const tasks = UtilTasks.getTasks(taskListId);
     if (tasks) {
-      const targetTask = tasks.items.find((task) => task.title === taskTitle);
+      const targetTask = tasks.find((task) => task.title === taskTitle);
       return targetTask;
     }
   }
   const getTaskListByTitle = (taskListTitle) => {
     const taskLists = UtilTasks.getTaskLists();
     if (taskLists) {
-      const taregetTaskList = taskLists.items.find((taskList) => taskList.title === taskListTitle);
+      const taregetTaskList = taskLists.find((taskList) => taskList.title === taskListTitle);
       return taregetTaskList;
     }
   }
@@ -248,7 +240,7 @@ function test() {
   const taskLists = UtilTasks.getTaskLists();
   console.log("getTaskLists: Successfully done.");
 
-  const taskList = taskLists.items[0];
+  const taskList = taskLists[0];
 
   // Check for getTasks function
   const tasks = UtilTasks.getTasks(taskList.id);
@@ -267,8 +259,8 @@ function test() {
   }
 
   // Check for changeTaskList function
-  if (taskLists.items.length >= 2) {
-    const newTaskList = taskLists.items[1];
+  if (taskLists.length >= 2) {
+    const newTaskList = taskLists[1];
     addNewTaskOnToday(taskList.id, taskTitle);
     targetTask = getTaskByTitle(taskList.id, taskTitle);
     if (targetTask) {
