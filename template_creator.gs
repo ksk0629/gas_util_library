@@ -3,6 +3,7 @@ var TemplateCreator = class TemplateCreator {
    * Constructor.
    */
   constructor() {
+    this.allTasksSheetName = "all tasks";
     this.headerRowPosition = 1;
     this.firstRowPosition = 2;
     
@@ -30,16 +31,15 @@ var TemplateCreator = class TemplateCreator {
    * @return {Sheet} a created sheet
    */
   __createAllTasksSheet(spreadsheet) {
-    // Check if "all tasks" sheet exists.
-    const allTasksSheetName = "all tasks";
-    let allTasksSheet = spreadsheet.getSheetByName(allTasksSheetName);
+    // Check if "all tasks" sheet exists and if it does, remove the sheet.
+    let allTasksSheet = spreadsheet.getSheetByName(this.allTasksSheetName);
     if (allTasksSheet) {
       spreadsheet.deleteSheet(allTasksSheet);
     }
     
-    // Create a new sheet and name it allTasksSheetName.
+    // Create a new sheet and name it this.allTasksSheetName.
     allTasksSheet = spreadsheet.insertSheet();
-    allTasksSheet.setName(allTasksSheetName);
+    allTasksSheet.setName(this.allTasksSheetName);
 
     const setupAllTasksSheet = this.__setupSheetForAllTasks(allTasksSheet);
 
@@ -203,4 +203,13 @@ var TemplateCreator = class TemplateCreator {
     this.__setupSheetForAllTasks(sheet);
     this.__setAllTasksOnSheet(sheet);
   }
+
+  // >>> Event handler >>>
+  /**
+   * 
+   */
+  updateTaskListHandler() {
+    const activeSheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  }
+  // <<< Event hander <<<
 }
