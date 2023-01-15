@@ -25,8 +25,10 @@ const UtilSheet = (() => {
    */
   const removeDataValidationOnColumn = (sheet, columnPosition, firstRowPosition, lastRowPosition) => {
     const numRows = lastRowPosition - firstRowPosition + 1;
-    const cell = sheet.getRange(firstRowPosition, columnPosition, numRows);
-    cell.setDataValidation(null);
+    if (numRows > 0) {
+      const cell = sheet.getRange(firstRowPosition, columnPosition, numRows);
+      cell.setDataValidation(null);
+    }
   }
 
   return {
