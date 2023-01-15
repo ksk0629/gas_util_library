@@ -203,13 +203,4 @@ var TemplateCreator = class TemplateCreator {
     this.__setupSheetForAllTasks(sheet);
     this.__setAllTasksOnSheet(sheet);
   }
-
-  // >>> Event handler >>>
-  /**
-   * 
-   */
-  updateTaskListHandler() {
-    const activeSheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  }
-  // <<< Event hander <<<
 }
