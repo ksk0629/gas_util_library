@@ -2,7 +2,7 @@ const UtilTasks = (() => {
   // >>> public >>>
   /**
    * Get all task lists.
-   * @return {Object(TaskList) | null} task lists or null if there is nothing
+   * @return {Object(TaskList) | undefined} task lists if it exists
    */
   const getTaskLists = () => {
     const taskLists = Tasks.Tasklists.list();
@@ -13,7 +13,7 @@ const UtilTasks = (() => {
   /**
    * Get tasks in a task list, which is specified by a given taskListId.
    * @param {String} taskListId - an identifier of a task list
-   * @return {Object(Task) | null} tasks or null if there is nothing
+   * @return {Object(Task) | undefined} tasks if it exists
    */
   const getTasks = (taskListId) => {
     const tasks = Tasks.Tasks.list(taskListId);
