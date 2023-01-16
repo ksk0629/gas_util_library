@@ -38,7 +38,7 @@ var UtilTasks = (() => {
       due = Utilities.formatDate(dueDate, "GMT", "yyyy-MM-dd'T'HH:mm:ss'Z'");
     }
 
-    addTaskWithDue(taskListId, title, notes, due);
+    return addTaskWithDue(taskListId, title, notes, due);
   }
 
   /**
@@ -69,7 +69,7 @@ var UtilTasks = (() => {
     const targetTask = getTaskById(originalTaskListId, taskId)
     if (targetTask) {
       removeTask(originalTaskListId, targetTask.id);
-      addTaskWithDue(newTaskListId, targetTask.title, targetTask.notes, targetTask.due);
+      return addTaskWithDue(newTaskListId, targetTask.title, targetTask.notes, targetTask.due);
     }
   }
   
@@ -139,6 +139,44 @@ var UtilTasks = (() => {
   const removeTaskList = (taskListId) => {
     Tasks.Tasklists.remove(taskListId);
   }
+
+  /**
+   * Create family trees of a task lisk, which is dpecified by a given id.
+   * @param {string} taskListId - an identifier of a task list
+   */
+  const createFamilyTrees = (taskListId) => {
+    const tasks = getTasks(taskListId);
+    if (!tasks) {
+      return null;
+    }
+
+    // Create family trees, which have only thier root.
+    const topLevelTasks = tasks.filter((task) => task.parent === null || task.parent === undefined);
+    const topLevelTaskNodes = topLevelTasks.map((topLevelTask) => new Node(topLevelTask.id, topLevelTask.title, []));
+    const familyTrees = topLevelTaskNodes.map((topLevelTaskNode) => new Tree(topLevelTaskNode));
+
+    // Set remaining tasks into an appropriate family tree.
+    const remainingTasks = tasks.filter((task) => task.parent !== null && task.parent !== undefined);
+    const haveAlreadySet = new Array(remainingTasks.length).fill(false);
+    while (!haveAlreadySet.every((flag) => flag)){
+      for (let index = 0; index < remainingTasks.length; index++) {
+        if (haveAlreadySet[index]) {
+          continue;
+        }
+
+        const remainingTask = remainingTasks[index];
+        for (const familyTree of familyTrees) {
+          if (familyTree.setAsChild(remainingTask.parent, remainingTask.id, remainingTask.title)) {
+            haveAlreadySet[index] = true;
+            break;
+          }
+        }
+      }
+    }
+
+    return familyTrees;
+  }
+
   // <<< public <<<
 
   // >>> private >>>
@@ -170,7 +208,7 @@ var UtilTasks = (() => {
       "notes": notes,
       "due" : due
     }
-    Tasks.Tasks.insert(task, taskListId);
+    return Tasks.Tasks.insert(task, taskListId);
   }
 
   /**
@@ -206,7 +244,8 @@ var UtilTasks = (() => {
     updateTaskSimply,
     completeTask,
     addTaskList,
-    removeTaskList
+    removeTaskList,
+    createFamilyTrees
   };
 })();
 
