@@ -30,6 +30,7 @@ var UtilTasks = (() => {
    * @param {number | null} year - year to be done, of a new task or null
    * @param {number | null} month - month to be done, of a new task or null
    * @param {number | nill} date - date to be done, of a new task or null
+   * @return {Tasks} an added task
    */
   const addTask = (taskListId, title, notes, year, month, date) => {
     let due = null;
@@ -64,6 +65,7 @@ var UtilTasks = (() => {
    * @param {String} originalTaskListId - an identifier of an original task list
    * @param {String} newTaskListId - an identifier of a new task list
    * @param {String} taskId - an identifier of a task
+   * @return {Tasks} an added task
    */
   const changeTaskList = (originalTaskListId, newTaskListId, taskId) => {
     const targetTask = getTaskById(originalTaskListId, taskId)
@@ -201,6 +203,7 @@ var UtilTasks = (() => {
    * @param {String} title - a title of a new task
    * @param {String | null} notes - notes of a new task or null
    * @param {String | null} due - due of a new task or null
+   * @return {Tasks} an added task
    */
   const addTaskWithDue = (taskListId, title, notes, due) => {
     const task = {
