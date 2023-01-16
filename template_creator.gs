@@ -215,74 +215,6 @@ var TemplateCreator = class TemplateCreator {
     this.__setAllTasksOnSheet(sheet);
   }
 
-  /**
-   * Update the column of a parent using ranges of a title of a task list, a titls of a task and title of a parent.
-   */
-  __updateParentFromRange(sheet, taskListTitleRange, taskTitleRange, parentTaskTitleRange) {
-    // Get the task lists.
-    const taskLists = UtilTasks.getTaskLists();
-    if (!taskLists) {
-      // Early return if it does not exist.
-      console.warn(`There are no task lists.`);
-      return null;
-    }
-
-    // Get the target task list.
-    const targetTaskListId = taskListTitleRange.getNote();
-    const targetTaskList = taskLists.find((taskList) => taskList.id === targetTaskListId);
-    if (!targetTaskList) {
-      // Early return if it does not exist.
-      console.warn(`The target task list doen not exist in the task lists.`);
-      return null;
-    }
-
-    // Get the tasks.
-    const tasks = UtilTasks.getTasks(targetTaskList.id);
-    if (!tasks) {
-      // Early return if there are no tasks.
-      console.warn(`There are no tasks in the task list "${targetTaskList.title}".`);
-      return null;
-    }
-
-    // Get the identifier of the task.
-    const targetTaskId = taskTitleRange.getNote();
-    if (!targetTaskId) {
-      // Early return if it does not exist.
-      console.warn(`The identifier of the task is not set.`);
-      return null;
-    }
-
-    // Get the task.
-    const targetTask = tasks.find((task) => task.id === targetTaskId);
-    if (!targetTask) {
-      // Early return if it does not exist.
-      const targetTaskTitle = taskTitleRange.getValue();
-      console.warn(`There is no task ${targetTaskTitle} in the target list ${targetTaskList.id}.`);
-      return null;
-    }
-
-    // Get the parent task.
-    const newParentTaskTitle = parentTaskTitleRange.getValue();
-    let newParentId = null;
-    if (newParentTaskTitle !== "") {
-      const newParentTask = tasks.find((task) => task.title === newParentTaskTitle);
-      if (!newParentTask) {
-        // Early return if it does not exist.
-        console.warn(`There is no task whose the tile is ${newParentTaskTitle} in the task list ${tasks.title}.`);
-        return null;
-      }
-      newParentId = newParentTask.id;
-    }
-
-    UtilTasks.changeParentTask(targetTaskListId, targetTaskId, newParentId);
-    parentTaskTitleRange.setNote(newParentId);
-
-    // Adjust the width of the column.
-    sheet.autoResizeColumns(1, this.parentTitleColumnPosition);
-    const parentTitleColumnWidth = sheet.getColumnWidth(this.parentTitleColumnPosition);
-    sheet.setColumnWidth(this.parentTitleColumnPosition, parentTitleColumnWidth + this.extraWidthForButton);
-  }
-
   // >>> Event handler >>>
   /**
    * The event handler for Updating the column of a parent.
@@ -306,13 +238,33 @@ var TemplateCreator = class TemplateCreator {
       return null;
     }
 
-    // Get the necessary ranges.
-    const activeCellRowPosition = activeCell.getRow();
-    const targetTaskListTitleRange = sheet.getRange(activeCellRowPosition, this.taskListTitleColumnPosition);
-    const targetTaskTitleRange = sheet.getRange(activeCellRowPosition, this.taskTitleColumnPosition);
-    const parentTaskTitleRange = sheet.getRange(activeCellRowPosition, this.parentTitleColumnPosition);
+    const activeRowPosition = activeCell.getRow();
 
-    this.__updateParentFromRange(sheet, targetTaskListTitleRange, targetTaskTitleRange, parentTaskTitleRange);
+    // Get the identifier of the task list.
+    const targetTaskListTitleRange = sheet.getRange(activeRowPosition, this.taskListTitleColumnPosition);
+    const targetTaskListId = targetTaskListTitleRange.getNote();
+
+    // Get the identifier of the task.
+    const targetTaskTitleRange = sheet.getRange(activeRowPosition, this.taskTitleColumnPosition);
+    const targetTaskId = targetTaskTitleRange.getNote();
+
+    // Get the identifier of the parent task.
+    const parentTaskTitleRange = sheet.getRange(activeRowPosition, this.parentTitleColumnPosition);
+    const newParentTaskTitle = parentTaskTitleRange.getValue();
+    const tasks = UtilTasks.getTasks(targetTaskListId);
+    const newParentTask = tasks.find((task) => task.title === newParentTaskTitle);
+    let newParentTaskId = null;
+    if (newParentTask) {
+      newParentTaskId = newParentTask.id;
+    }
+
+    UtilTasks.changeParentTask(targetTaskListId, targetTaskId, newParentTaskId);
+    parentTaskTitleRange.setNote(newParentTaskId);
+
+    // Adjust the width of the column.
+    sheet.autoResizeColumns(1, this.parentTitleColumnPosition);
+    const parentTitleColumnWidth = sheet.getColumnWidth(this.parentTitleColumnPosition);
+    sheet.setColumnWidth(this.parentTitleColumnPosition, parentTitleColumnWidth + this.extraWidthForButton);
   }
 
   /**
