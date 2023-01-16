@@ -258,6 +258,7 @@ var TemplateCreator = class TemplateCreator {
       newParentTaskId = newParentTask.id;
     }
 
+    // Change the parent task.
     UtilTasks.changeParentTask(targetTaskListId, targetTaskId, newParentTaskId);
     parentTaskTitleRange.setNote(newParentTaskId);
 
