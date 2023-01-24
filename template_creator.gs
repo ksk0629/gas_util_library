@@ -72,10 +72,10 @@ var TemplateCreator = class TemplateCreator {
   createArrangedSheetToShowTasks(sheetName) {
     const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
     
-    // Remove the sheet if the sheet specified by this.sheetName does already exist.
+    // Clear the sheet if the sheet specified by this.sheetName does already exist.
     let targetSheet = activeSpreadsheet.getSheetByName(sheetName);
     if (targetSheet) {
-      activeSpreadsheet.deleteSheet(targetSheet);
+      targetSheet.clear();
     }
     
     // Create a new sheet and name it this.sheeName.
