@@ -75,11 +75,11 @@ var TemplateCreator = class TemplateCreator {
     // Remove the sheet if the sheet specified by this.sheetName does already exist.
     let targetSheet = activeSpreadsheet.getSheetByName(sheetName);
     if (targetSheet) {
-      spreadsheet.deleteSheet(targetSheet);
+      activeSpreadsheet.deleteSheet(targetSheet);
     }
     
     // Create a new sheet and name it this.sheeName.
-    targetSheet = spreadsheet.insertSheet();
+    targetSheet = activeSpreadsheet.insertSheet();
     targetSheet.setName(sheetName);
 
     this._arrangeSheetToShowTasks(targetSheet);
